@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Food Delivery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f9;
+    }
+    header {
+      background: #ff5722;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #ff5722;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 5px;
+    }
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    label {
+      font-weight: bold;
+    }
+    input, select {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+    }
+    button {
+      grid-column: span 2;
+      padding: 10px;
+      background: #ff5722;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #e64a19;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      text-align: center;
+      padding: 10px;
+    }
+    th {
+      background: #ffccbc;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🍔 Online Food Delivery System</h1>
+  </header>
+
+  <div class="container">
+    <h2>Order Form (Consumer Input)</h2>
+    <form id="orderForm">
+      <div>
+        <label>Full Name</label>
+        <input type="text" id="name" required>
+      </div>
+      <div>
+        <label>Phone</label>
+        <input type="tel" id="phone" required>
+      </div>
+      <div>
+        <label>Restaurant</label>
+        <select id="restaurant" required>
+          <option value="Pizza Palace">Pizza Palace</option>
+          <option value="Burger Haven">Burger Haven</option>
+          <option value="Sushi World">Sushi World</option>
+          <option value="Pasta Corner">Pasta Corner</option>
+        </select>
+      </div>
+      <div>
+        <label>Menu Item</label>
+        <select id="item" required>
+          <option value="Margherita Pizza - 199">Margherita Pizza - ₹199</option>
+          <option value="Cheeseburger - 150">Cheeseburger - ₹150</option>
+          <option value="California Roll - 250">California Roll - ₹250</option>
+          <option value="Spaghetti Alfredo - 350">Spaghetti Alfredo - ₹350</option>
+        </select>
+      </div>
+      <div>
+        <label>Quantity</label>
+        <input type="number" id="quantity" value="1" min="1" required>
+      </div>
+      <div>
+        <label>Status</label>
+        <select id="status">
+          <option>Pending</option>
+          <option>Completed</option>
+          <option>Cancelled</option>
+        </select>
+      </div>
+      <button type="submit">Place Order</button>
+    </form>
+
+    <h2>📋 Provider View (Orders Received)</h2>
+    <table id="orderTable">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Phone</th>
+          <th>Restaurant</th>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Total (₹)</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Orders will appear here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    let orderId = 1;
+
+    document.getElementById("orderForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      let name = document.getElementById("name").value;
+      let phone = document.getElementById("phone").value;
+      let restaurant = document.getElementById("restaurant").value;
+      let item = document.getElementById("item").value;
+      let quantity = parseInt(document.getElementById("quantity").value);
+      let status = document.getElementById("status").value;
+
+      let price = parseInt(item.split("-")[1]); // get price from string
+      let total = price * quantity;
+
+      let table = document.getElementById("orderTable").querySelector("tbody");
+      let row = table.insertRow();
+
+      row.innerHTML = `
+        <td>${orderId++}</td>
+        <td>${name}</td>
+        <td>${phone}</td>
+        <td>${restaurant}</td>
+        <td>${item.split("-")[0]}</td>
+        <td>${quantity}</td>
+        <td>${total}</td>
+        <td>${status}</td>
+      `;
+
+      document.getElementById("orderForm").reset();
+    });
+  </script>
+
+</body>
+</html>
